@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dz.cursomc.domain.Cidade;
 import com.dz.cursomc.domain.Cliente;
@@ -34,6 +35,7 @@ public class ClienteService {
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
 	}
 
+	@Transactional
 	public Cliente insert(Cliente obj) {
 		obj.setId(null);
 		obj = repo.save(obj);
@@ -53,7 +55,7 @@ public class ClienteService {
 			repo.deleteById(id);
 			
 		}catch(DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Não é possível excluir por que há entidades relacionadas");
+			throw new DataIntegrityException("Não é possível excluir por que há pedidos relacionadas");
 		}
 	}
 	
